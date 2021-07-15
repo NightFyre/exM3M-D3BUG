@@ -42,6 +42,8 @@ namespace ExternalTrainerDebugForm
             this.ProcAddrValue_textBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.ProcessTimer = new System.Windows.Forms.Timer(this.components);
+            this.AddrOffset_textBox = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // SelectProcess_textBox
@@ -96,7 +98,7 @@ namespace ExternalTrainerDebugForm
             // 
             this.ReadValue_Button.Location = new System.Drawing.Point(118, 69);
             this.ReadValue_Button.Name = "ReadValue_Button";
-            this.ReadValue_Button.Size = new System.Drawing.Size(75, 23);
+            this.ReadValue_Button.Size = new System.Drawing.Size(75, 48);
             this.ReadValue_Button.TabIndex = 7;
             this.ReadValue_Button.Text = "READ";
             this.ReadValue_Button.UseVisualStyleBackColor = true;
@@ -117,14 +119,14 @@ namespace ExternalTrainerDebugForm
             this.ProcAddrNewValue_Label.AutoSize = true;
             this.ProcAddrNewValue_Label.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ProcAddrNewValue_Label.ForeColor = System.Drawing.Color.Red;
-            this.ProcAddrNewValue_Label.Location = new System.Drawing.Point(199, 125);
+            this.ProcAddrNewValue_Label.Location = new System.Drawing.Point(199, 150);
             this.ProcAddrNewValue_Label.Name = "ProcAddrNewValue_Label";
             this.ProcAddrNewValue_Label.Size = new System.Drawing.Size(0, 15);
             this.ProcAddrNewValue_Label.TabIndex = 12;
             // 
             // WriteValue_Button
             // 
-            this.WriteValue_Button.Location = new System.Drawing.Point(118, 119);
+            this.WriteValue_Button.Location = new System.Drawing.Point(118, 144);
             this.WriteValue_Button.Name = "WriteValue_Button";
             this.WriteValue_Button.Size = new System.Drawing.Size(75, 23);
             this.WriteValue_Button.TabIndex = 11;
@@ -135,7 +137,7 @@ namespace ExternalTrainerDebugForm
             // ProcAddrValue_textBox
             // 
             this.ProcAddrValue_textBox.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.ProcAddrValue_textBox.Location = new System.Drawing.Point(12, 121);
+            this.ProcAddrValue_textBox.Location = new System.Drawing.Point(12, 146);
             this.ProcAddrValue_textBox.Name = "ProcAddrValue_textBox";
             this.ProcAddrValue_textBox.Size = new System.Drawing.Size(100, 20);
             this.ProcAddrValue_textBox.TabIndex = 10;
@@ -145,7 +147,7 @@ namespace ExternalTrainerDebugForm
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Red;
-            this.label4.Location = new System.Drawing.Point(12, 105);
+            this.label4.Location = new System.Drawing.Point(12, 130);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(95, 15);
             this.label4.TabIndex = 9;
@@ -156,12 +158,33 @@ namespace ExternalTrainerDebugForm
             this.ProcessTimer.Enabled = true;
             this.ProcessTimer.Tick += new System.EventHandler(this.ProcessTimer_Tick);
             // 
+            // AddrOffset_textBox
+            // 
+            this.AddrOffset_textBox.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.AddrOffset_textBox.Location = new System.Drawing.Point(76, 97);
+            this.AddrOffset_textBox.Name = "AddrOffset_textBox";
+            this.AddrOffset_textBox.Size = new System.Drawing.Size(36, 20);
+            this.AddrOffset_textBox.TabIndex = 13;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.Red;
+            this.label2.Location = new System.Drawing.Point(12, 99);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(55, 15);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "OFFSET ?";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(35)))));
-            this.ClientSize = new System.Drawing.Size(258, 151);
+            this.ClientSize = new System.Drawing.Size(284, 179);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.AddrOffset_textBox);
             this.Controls.Add(this.ProcAddrNewValue_Label);
             this.Controls.Add(this.WriteValue_Button);
             this.Controls.Add(this.ProcAddrValue_textBox);
@@ -196,6 +219,8 @@ namespace ExternalTrainerDebugForm
         private System.Windows.Forms.TextBox ProcAddrValue_textBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Timer ProcessTimer;
+        private System.Windows.Forms.TextBox AddrOffset_textBox;
+        private System.Windows.Forms.Label label2;
     }
 }
 
