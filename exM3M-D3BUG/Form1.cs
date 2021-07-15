@@ -39,13 +39,23 @@ namespace ExternalTrainerDebugForm
 
             if (ProcAddress_textBox.Text != "")
             {
+                string AddressLabel = ProcAddress_textBox.Text;
                 IntPtr Address = new IntPtr(Convert.ToInt32(ProcAddress_textBox.Text, 16));
                 var AddressValue = m.Read<int>(Address, false);
-                string DecimalAddressValue = m.Read<int>(Address, false).ToString();
-                ProcAddressValu_Label.Text = DecimalAddressValue;
+                int DecimalAddressValue = m.Read<int>(Address, false);
+                OffsetAddress_Label.Text = AddressLabel.ToUpper() + " = ";
 
+                //Print Value to label
+                if (!OffsetValue2Hex_CheckBox.Checked)
+                {
+                    ProcAddressValu_Label.Text = DecimalAddressValue.ToString();
+                }
+                else
+                {
+                    ProcAddressValu_Label.Text = DecimalAddressValue.ToString("X");
+                }
 
-                //Added Support for Offsets
+                //Offset Stuff
                 if (AddrOffset_textBox.Text != "")
                 {
                     //Turns Address Value into Its own Address
@@ -56,14 +66,23 @@ namespace ExternalTrainerDebugForm
                     
                     //Do math
                     var NewAddress = PointerOffset + Offset;
-                    
-                    //Get Value of our new address
-                    var OffsetAddressValue = m.Read<int>(NewAddress, false).ToString();
-                    
-                    //Print Value to label
-                    ProcAddressValu_Label.Text = OffsetAddressValue;
-                }
 
+                    //Get Value of our new address
+                    var OffsetAddressValue = m.Read<int>(NewAddress, false);
+
+                    //Print Offset Address to label
+                    OffsetAddress_Label.Text = NewAddress.ToString("X") + " = ";
+
+                    //Print Value to label
+                    if (!OffsetValue2Hex_CheckBox.Checked)
+                    {
+                        ProcAddressValu_Label.Text = OffsetAddressValue.ToString();
+                    }
+                    else
+                    {
+                        ProcAddressValu_Label.Text = OffsetAddressValue.ToString("X");
+                    }
+                }
             }
         }
 
@@ -71,12 +90,23 @@ namespace ExternalTrainerDebugForm
         {
             if (ProcAddrValue_textBox.Text != "")
             {
-                IntPtr Address = new IntPtr(Convert.ToInt32(ProcAddress_textBox.Text, 16));
-                var Value = int.Parse(ProcAddrValue_textBox.Text);
-                m.Write<int>(Address, Value, false);
-                ProcAddrNewValue_Label.Text = Value.ToString();
-
-                //Will add support to write to offsets at a later date
+                if ((OffsetAddress_Label.Text != "") && (ChangeOffsetValue_checkBox.Checked))
+                {
+                    string OffsetLabel = OffsetAddress_Label.Text;
+                    string OffsetAddressConversion = OffsetAddress_Label.Text.Replace(" = ", "").Replace(" ", "");
+                    IntPtr OffsetAddress = new IntPtr(Convert.ToUInt32(OffsetAddressConversion, 16));
+                    var OffsetValue = int.Parse(ProcAddrValue_textBox.Text);
+                    m.Write<int>(OffsetAddress, OffsetValue, false);
+                    ProcAddrNewValue_Label.Text = OffsetValue.ToString();
+                    OffsetAddress_Label2.Text = OffsetLabel;
+                }
+                else
+                {
+                    IntPtr Address = new IntPtr(Convert.ToInt32(ProcAddress_textBox.Text, 16));
+                    var Value = int.Parse(ProcAddrValue_textBox.Text);
+                    m.Write<int>(Address, Value, false);
+                    ProcAddrNewValue_Label.Text = Value.ToString();
+                }
             }
         }
     }
