@@ -48,7 +48,7 @@ namespace ExternalTrainerDebugForm
             this.panel1 = new System.Windows.Forms.Panel();
             this.OffsetAddress_Label = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.AddressOffset2_textBox = new System.Windows.Forms.TextBox();
             this.ChangeOffsetValue_checkBox = new System.Windows.Forms.CheckBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
@@ -56,6 +56,9 @@ namespace ExternalTrainerDebugForm
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.WriteHexValue_checkBox = new System.Windows.Forms.CheckBox();
+            this.WriteFloatValue_checkBox = new System.Windows.Forms.CheckBox();
+            this.ReadFloatValue_checkBox = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -173,6 +176,7 @@ namespace ExternalTrainerDebugForm
             // ProcessTimer
             // 
             this.ProcessTimer.Enabled = true;
+            this.ProcessTimer.Interval = 2500;
             this.ProcessTimer.Tick += new System.EventHandler(this.ProcessTimer_Tick);
             // 
             // AddrOffset_textBox
@@ -237,20 +241,20 @@ namespace ExternalTrainerDebugForm
             this.label3.TabIndex = 18;
             this.label3.Text = "OFFSET 2";
             // 
-            // textBox1
+            // AddressOffset2_textBox
             // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.textBox1.Location = new System.Drawing.Point(76, 127);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(36, 20);
-            this.textBox1.TabIndex = 17;
+            this.AddressOffset2_textBox.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.AddressOffset2_textBox.Location = new System.Drawing.Point(76, 127);
+            this.AddressOffset2_textBox.Name = "AddressOffset2_textBox";
+            this.AddressOffset2_textBox.Size = new System.Drawing.Size(36, 20);
+            this.AddressOffset2_textBox.TabIndex = 17;
             // 
             // ChangeOffsetValue_checkBox
             // 
             this.ChangeOffsetValue_checkBox.AutoSize = true;
             this.ChangeOffsetValue_checkBox.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ChangeOffsetValue_checkBox.ForeColor = System.Drawing.Color.Red;
-            this.ChangeOffsetValue_checkBox.Location = new System.Drawing.Point(12, 202);
+            this.ChangeOffsetValue_checkBox.Location = new System.Drawing.Point(118, 227);
             this.ChangeOffsetValue_checkBox.Name = "ChangeOffsetValue_checkBox";
             this.ChangeOffsetValue_checkBox.Size = new System.Drawing.Size(68, 19);
             this.ChangeOffsetValue_checkBox.TabIndex = 19;
@@ -319,12 +323,51 @@ namespace ExternalTrainerDebugForm
             this.panel5.Size = new System.Drawing.Size(284, 20);
             this.panel5.TabIndex = 22;
             // 
+            // WriteHexValue_checkBox
+            // 
+            this.WriteHexValue_checkBox.AutoSize = true;
+            this.WriteHexValue_checkBox.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.WriteHexValue_checkBox.ForeColor = System.Drawing.Color.Red;
+            this.WriteHexValue_checkBox.Location = new System.Drawing.Point(12, 202);
+            this.WriteHexValue_checkBox.Name = "WriteHexValue_checkBox";
+            this.WriteHexValue_checkBox.Size = new System.Drawing.Size(56, 19);
+            this.WriteHexValue_checkBox.TabIndex = 23;
+            this.WriteHexValue_checkBox.Text = "HEX ?";
+            this.WriteHexValue_checkBox.UseVisualStyleBackColor = true;
+            // 
+            // WriteFloatValue_checkBox
+            // 
+            this.WriteFloatValue_checkBox.AutoSize = true;
+            this.WriteFloatValue_checkBox.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.WriteFloatValue_checkBox.ForeColor = System.Drawing.Color.Red;
+            this.WriteFloatValue_checkBox.Location = new System.Drawing.Point(12, 227);
+            this.WriteFloatValue_checkBox.Name = "WriteFloatValue_checkBox";
+            this.WriteFloatValue_checkBox.Size = new System.Drawing.Size(67, 19);
+            this.WriteFloatValue_checkBox.TabIndex = 24;
+            this.WriteFloatValue_checkBox.Text = "FLOAT ?";
+            this.WriteFloatValue_checkBox.UseVisualStyleBackColor = true;
+            // 
+            // ReadFloatValue_checkBox
+            // 
+            this.ReadFloatValue_checkBox.AutoSize = true;
+            this.ReadFloatValue_checkBox.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ReadFloatValue_checkBox.ForeColor = System.Drawing.Color.Red;
+            this.ReadFloatValue_checkBox.Location = new System.Drawing.Point(199, 128);
+            this.ReadFloatValue_checkBox.Name = "ReadFloatValue_checkBox";
+            this.ReadFloatValue_checkBox.Size = new System.Drawing.Size(67, 19);
+            this.ReadFloatValue_checkBox.TabIndex = 25;
+            this.ReadFloatValue_checkBox.Text = "FLOAT ?";
+            this.ReadFloatValue_checkBox.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(35)))));
-            this.ClientSize = new System.Drawing.Size(284, 226);
+            this.ClientSize = new System.Drawing.Size(284, 249);
+            this.Controls.Add(this.ReadFloatValue_checkBox);
+            this.Controls.Add(this.WriteFloatValue_checkBox);
+            this.Controls.Add(this.WriteHexValue_checkBox);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
@@ -332,7 +375,7 @@ namespace ExternalTrainerDebugForm
             this.Controls.Add(this.WriteValue_Button);
             this.Controls.Add(this.ChangeOffsetValue_checkBox);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.AddressOffset2_textBox);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.OffsetValue2Hex_CheckBox);
             this.Controls.Add(this.label2);
@@ -381,7 +424,7 @@ namespace ExternalTrainerDebugForm
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label OffsetAddress_Label;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox AddressOffset2_textBox;
         private System.Windows.Forms.CheckBox ChangeOffsetValue_checkBox;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label5;
@@ -389,6 +432,9 @@ namespace ExternalTrainerDebugForm
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.CheckBox WriteHexValue_checkBox;
+        private System.Windows.Forms.CheckBox WriteFloatValue_checkBox;
+        private System.Windows.Forms.CheckBox ReadFloatValue_checkBox;
     }
 }
 
