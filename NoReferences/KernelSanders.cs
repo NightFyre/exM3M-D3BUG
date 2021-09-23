@@ -41,6 +41,8 @@ namespace KernalAccess
             gameRunning = false;
         }
 
+        //BUG REPORT:
+        //- Read Float Value is incorrect (FIXED)
         private void ReadValue_Button_Click(object sender, EventArgs e)
         {
             if (!gameRunning)
@@ -50,15 +52,10 @@ namespace KernalAccess
 
             if (ProcAddress_textBox.Text != "")
             {
-                //Define Some variables
-                byte[] lpBuffer = new byte[4];
+                byte[] lpBuffer = new byte[8];
                 string AddressLabel = ProcAddress_textBox.Text;
                 var address = ProcAddress_textBox.Text;
-
-                //Convert some stuff
-                int textAddress = (int)(Convert.ToInt32(ProcAddress_textBox.Text, 16));
-                
-                //Read 
+                int textAddress = (int)(Convert.ToInt64(ProcAddress_textBox.Text, 16));
                 var AddressValue = mem.ReadProcessMemory(hProc, (UIntPtr)((int)/*mainModule.BaseAddress + */textAddress), lpBuffer, 4L, IntPtr.Zero);   //PCSX2 does not require module base
                 uint baseAddr = BitConverter.ToUInt32(lpBuffer, 0);
                 OffsetAddress_Label.Text = AddressLabel.ToUpper() + " = ";
@@ -75,7 +72,7 @@ namespace KernalAccess
 
                 if (ReadFloatValue_checkBox.Checked)
                 {
-                    ProcAddressValu_Label.Text = baseAddr.ToString("F3");
+                    ProcAddressValu_Label.Text = baseAddr.ToString();
                 }
 
                 #region OFFSETS
@@ -83,10 +80,9 @@ namespace KernalAccess
                 {
                     var otextINPUT = int.Parse(AddrOffset_textBox.Text, System.Globalization.NumberStyles.HexNumber);
                     var newAddress = baseAddr + otextINPUT;
-
-                    //Read
                     var OffsetAddressValue = mem.ReadProcessMemory(hProc, (UIntPtr)((int)newAddress), lpBuffer, 4L, IntPtr.Zero);
                     uint offset1 = BitConverter.ToUInt32(lpBuffer, 0);
+                    float testFloatOffset = BitConverter.ToSingle(lpBuffer, 0); //FLOAT PATCH
                     OffsetAddress_Label.Text = newAddress.ToString("X") + " = ";
 
                     if ((!OffsetValue2Hex_CheckBox.Checked) && (!ReadFloatValue_checkBox.Checked))
@@ -101,7 +97,7 @@ namespace KernalAccess
 
                     if (ReadFloatValue_checkBox.Checked)
                     {
-                        ProcAddressValu_Label.Text = offset1.ToString("F3");
+                        ProcAddressValu_Label.Text = testFloatOffset.ToString();
                     }
                 }
 
@@ -111,7 +107,7 @@ namespace KernalAccess
                     //OFFSET 1
                     var otextINPUT = int.Parse(AddrOffset_textBox.Text, System.Globalization.NumberStyles.HexNumber);
                     var otextINPUT2 = int.Parse(AddressOffset2_textBox.Text, System.Globalization.NumberStyles.HexNumber);
-                    var newAddress = baseAddr + otextINPUT;     //2044D648 -> 00E46FB0 + 0x28 = 20E46FD8
+                    var newAddress = baseAddr + otextINPUT;
                     var OffsetAddressValue = mem.ReadProcessMemory(hProc, (UIntPtr)((int)newAddress), lpBuffer, 4L, IntPtr.Zero);
                     uint offset1 = BitConverter.ToUInt32(lpBuffer, 0);
                     var NewAddress2 = offset1 + otextINPUT2;
@@ -119,8 +115,11 @@ namespace KernalAccess
                     //OFFSET 2
                     var OffsetAddress2Value = mem.ReadProcessMemory(hProc, (UIntPtr)((int)NewAddress2), lpBuffer, 4L, IntPtr.Zero);
                     uint offset2 = BitConverter.ToUInt32(lpBuffer, 0);
+                    float offset2Float = BitConverter.ToSingle(lpBuffer, 0);    //FLOAT PATCH
                     OffsetAddress_Label.Text = NewAddress2.ToString("X") + " = ";
 
+                    //Been a little bit , but after working with C++ some more I was able to come back to this and easily spot the error.
+                    //I will be coming back to make some further adjustments but I Might as well push this with the updated method.
                     if ((!OffsetValue2Hex_CheckBox.Checked) && (!ReadFloatValue_checkBox.Checked))
                     {
                         ProcAddressValu_Label.Text = offset2.ToString();
@@ -133,7 +132,8 @@ namespace KernalAccess
 
                     if (ReadFloatValue_checkBox.Checked)
                     {
-                        ProcAddressValu_Label.Text = offset2.ToString("F3");
+
+                        ProcAddressValu_Label.Text = offset2Float.ToString("F3");
                     }
                 }
                 #endregion
@@ -141,6 +141,9 @@ namespace KernalAccess
             }
         }
 
+        //BUG REPORT:
+        //- Write via Hex value causes issues.
+        //- Must convert to int
         private void WriteValue_Button_Click(object sender, EventArgs e)
         {
             if (ProcAddrValue_textBox.Text != "")
