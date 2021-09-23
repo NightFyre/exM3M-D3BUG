@@ -41,8 +41,6 @@ namespace KernalAccess
             gameRunning = false;
         }
 
-        //BUG REPORT:
-        //- Read Float Value is incorrect (FIXED)
         private void ReadValue_Button_Click(object sender, EventArgs e)
         {
             if (!gameRunning)
@@ -58,6 +56,7 @@ namespace KernalAccess
                 int textAddress = (int)(Convert.ToInt64(ProcAddress_textBox.Text, 16));
                 var AddressValue = mem.ReadProcessMemory(hProc, (UIntPtr)((int)/*mainModule.BaseAddress + */textAddress), lpBuffer, 4L, IntPtr.Zero);   //PCSX2 does not require module base
                 uint baseAddr = BitConverter.ToUInt32(lpBuffer, 0);
+                float testFloatAddress = BitConverter.ToSingle(lpBuffer, 0); //FLOAT PATCH
                 OffsetAddress_Label.Text = AddressLabel.ToUpper() + " = ";
 
                 if ((!OffsetValue2Hex_CheckBox.Checked) && (!ReadFloatValue_checkBox.Checked))
@@ -72,10 +71,12 @@ namespace KernalAccess
 
                 if (ReadFloatValue_checkBox.Checked)
                 {
-                    ProcAddressValu_Label.Text = baseAddr.ToString();
+                    ProcAddressValu_Label.Text = testFloatAddress.ToString();
                 }
 
                 #region OFFSETS
+
+                ///OFFSET 1
                 if (AddrOffset_textBox.Text != "")
                 {
                     var otextINPUT = int.Parse(AddrOffset_textBox.Text, System.Globalization.NumberStyles.HexNumber);
@@ -141,11 +142,9 @@ namespace KernalAccess
             }
         }
 
-        //BUG REPORT:
-        //- Write via Hex value causes issues.
-        //- Must convert to int
         private void WriteValue_Button_Click(object sender, EventArgs e)
         {
+            //Write to Offsets
             if (ProcAddrValue_textBox.Text != "")
             {
                 if ((OffsetAddress_Label.Text != "") && (ChangeOffsetValue_checkBox.Checked))
@@ -167,7 +166,7 @@ namespace KernalAccess
                     if (WriteHexValue_checkBox.Checked)
                     {
                         mem.ReadProcessMemory(hProc, (UIntPtr)((int)textAddress), Address, 4L, IntPtr.Zero);
-                        var Value = int.Parse(ProcAddrValue_textBox.Text);
+                        var Value = int.Parse(ProcAddrValue_textBox.Text, System.Globalization.NumberStyles.HexNumber);
                         mem.WriteProcessMemory(hProc, (IntPtr)textAddress, Value, 4L, out lpNumberOfBytesWritten);
                         ProcAddrNewValue_Label.Text = Value.ToString("X8");
                     }
@@ -175,11 +174,13 @@ namespace KernalAccess
                     if (WriteFloatValue_checkBox.Checked)
                     {
                         mem.ReadProcessMemory(hProc, (UIntPtr)((int)textAddress), Address, 4L, IntPtr.Zero);
-                        var Value = int.Parse(ProcAddrValue_textBox.Text);
+                        var Value = float.Parse(ProcAddrValue_textBox.Text);
                         mem.WriteProcessMemory(hProc, (IntPtr)textAddress, Value, 4L, out lpNumberOfBytesWritten);
                         ProcAddrNewValue_Label.Text = Value.ToString("F3");
                     }
                 }
+
+                //Write to base address
                 else if (AddrOffset_textBox.Text == "")
                 {
                     IntPtr lpNumberOfBytesWritten;
@@ -198,7 +199,7 @@ namespace KernalAccess
                     if (WriteHexValue_checkBox.Checked)
                     {
                         mem.ReadProcessMemory(hProc, (UIntPtr)((int)textAddress), Address, 4L, IntPtr.Zero);
-                        var Value = int.Parse(ProcAddrValue_textBox.Text);
+                        var Value = int.Parse(ProcAddrValue_textBox.Text, System.Globalization.NumberStyles.HexNumber);
                         mem.WriteProcessMemory(hProc, (IntPtr)textAddress, Value, 4L, out lpNumberOfBytesWritten);
                         ProcAddrNewValue_Label.Text = Value.ToString("X8");
                     }
@@ -206,7 +207,7 @@ namespace KernalAccess
                     if (WriteFloatValue_checkBox.Checked)
                     {
                         mem.ReadProcessMemory(hProc, (UIntPtr)((int)textAddress), Address, 4L, IntPtr.Zero);
-                        var Value = int.Parse(ProcAddrValue_textBox.Text);
+                        var Value = float.Parse(ProcAddrValue_textBox.Text);
                         mem.WriteProcessMemory(hProc, (IntPtr)textAddress, Value, 4L, out lpNumberOfBytesWritten);
                         ProcAddrNewValue_Label.Text = Value.ToString("F3");
                     }
